@@ -10,10 +10,9 @@ import javax.inject.Inject
  * Created by Thiago Zagui Giacomini on 17/10/2019.
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
-class MainRepositoryImpl @Inject constructor() : MainRepository {
-
-    @Inject
-    lateinit var apiDataSource: GitHubApiDataSource
+class MainRepositoryImpl(
+    private val apiDataSource: GitHubApiDataSource
+) : MainRepository {
 
     override fun searchByQuery(
         params: FetchRepositoriesUseCase.Params

@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-class ApiModule {
+class DataSourceModule {
 
     @Provides
     @Singleton

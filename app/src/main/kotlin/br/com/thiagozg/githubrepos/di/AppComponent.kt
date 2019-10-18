@@ -14,7 +14,7 @@ import javax.inject.Singleton
     AndroidModule::class,
     NetworkModule::class,
     RetrofitModule::class,
-    ApiModule::class,
+    DataSourceModule::class,
     BuildersModule::class]
 )
 interface AppComponent : AndroidInjector<CustomApplication> {

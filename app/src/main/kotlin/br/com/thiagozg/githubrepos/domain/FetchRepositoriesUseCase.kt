@@ -10,7 +10,7 @@ import javax.inject.Inject
  * Created by Thiago Zagui Giacomini on 17/10/2019.
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
-class FetchRepositoriesUseCase @Inject constructor(
+class FetchRepositoriesUseCase(
     private val mainRepository: MainRepository,
     private val repositoriesMapper: RepositoriesMapper
 ) : UseCase<FetchRepositoriesUseCase.Params, List<RepositoryBO>>() {

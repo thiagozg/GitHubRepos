@@ -14,7 +14,7 @@ import javax.inject.Singleton
     TestAndroidModule::class,
     NetworkModule::class,
     TestRetrofitModule::class,
-    ApiModule::class,
+    DataSourceModule::class,
     BuildersModule::class]
 )
 interface TestAppComponent : AndroidInjector<TestApplication> {

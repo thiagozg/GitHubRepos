@@ -14,7 +14,7 @@ object RepositoriesMapper {
             RepositoryBO(
                 name = it.name,
                 starsCount = it.stargazersCount,
-                forkCount = it.forks,
+                forkCount = it.forksCount,
                 photoUrl = it.owner.avatarUrl,
                 authorName = it.owner.login
             )
