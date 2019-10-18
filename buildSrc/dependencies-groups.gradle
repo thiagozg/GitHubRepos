@@ -1,0 +1,77 @@
+def Group(Closure closure) {
+    closure.delegate = dependencies
+    return closure
+}
+
+ext {
+    kotlin = Group {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+    }
+
+    androidSupport = Group {
+        implementation "androidx.appcompat:appcompat:$versions.appCompat"
+        implementation "androidx.legacy:legacy-support-v4:$versions.legacySupportV4"
+        implementation "androidx.recyclerview:recyclerview:$versions.recyclerView"
+        implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+        implementation "androidx.core:core-ktx:$versions.coreKtx"
+    }
+
+    architectureComponents = Group {
+        implementation "androidx.lifecycle:lifecycle-viewmodel:$versions.architecture"
+        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.architecture"
+        implementation "androidx.lifecycle:lifecycle-livedata-core:$versions.architecture"
+        implementation "androidx.lifecycle:lifecycle-livedata:$versions.architecture"
+        implementation "androidx.lifecycle:lifecycle-reactivestreams:$versions.architecture"
+        implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$versions.architecture"
+        kapt "androidx.lifecycle:lifecycle-compiler:$versions.architecture"
+    }
+
+    dagger = Group {
+        implementation "com.google.dagger:dagger:$versions.dagger"
+        kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+        implementation "com.google.dagger:dagger-android:$versions.dagger"
+        implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+        kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+    }
+
+    network = Group {
+        implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
+        implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttp"
+
+        implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+        implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+        implementation "com.squareup.retrofit2:converter-scalars:$versions.retrofit"
+    }
+
+    rxJava = Group {
+        implementation "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid"
+        implementation "io.reactivex.rxjava2:rxjava:$versions.rxJava"
+        implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.rxRetrofitAdapter"
+    }
+
+    unitTest = Group {
+        testImplementation "junit:junit:$versions.jUnit"
+        testImplementation "io.mockk:mockk:$versions.mockk"
+        testImplementation "org.assertj:assertj-core:$versions.assertjCore"
+        testImplementation "androidx.arch.core:core-testing:$versions.architecture"
+        testImplementation "com.github.Plastix.RxSchedulerRule:rx2:$versions.rxSchedulerRule"
+    }
+
+    instrumentedTest = Group {
+        androidTestImplementation "com.android.support.test:runner:$versions.testRunner"
+        androidTestImplementation "com.android.support.test:rules:$versions.testRunner"
+        androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:$versions.uiAutomator"
+        androidTestImplementation ("com.android.support.test.espresso:espresso-core:$versions.espresso") {
+            exclude group: 'javax.inject', module: 'javax.inject'
+            exclude group: 'com.squareup', module: 'javawriter'
+        }
+
+        androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
+        androidTestImplementation "com.squareup.okhttp3:mockwebserver:$versions.okHttp"
+        androidTestImplementation "com.squareup.spoon:spoon-client:$versions.spoon"
+
+        kaptAndroidTest "com.google.dagger:dagger-compiler:$versions.dagger"
+        kaptAndroidTest "com.google.dagger:dagger-android-processor:$versions.dagger"
+    }
+
+}
