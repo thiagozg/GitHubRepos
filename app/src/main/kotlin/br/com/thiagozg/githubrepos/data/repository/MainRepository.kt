@@ -1,6 +1,7 @@
 package br.com.thiagozg.githubrepos.data.repository
 
 import br.com.thiagozg.githubrepos.data.repository.model.RepositoriesResponse
+import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
 import io.reactivex.Single
 
 /*
@@ -10,10 +11,7 @@ import io.reactivex.Single
 interface MainRepository {
 
     fun searchByQuery(
-        language: String,
-        sort: String,
-        page: Int,
-        perPage: Int
+        params: FetchRepositoriesUseCase.Params
     ): Single<RepositoriesResponse>
 
 }
