@@ -7,3 +7,4 @@ package br.com.thiagozg.githubrepos.domain.model
 sealed class StateResponse
 class StateSuccess<T>(val data: T) : StateResponse()
 class StateError(val error: Throwable) : StateResponse()
+object StateLoading : StateResponse()

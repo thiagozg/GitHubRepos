@@ -1,4 +1,4 @@
-package br.com.thiagozg.githubrepos.features
+package br.com.thiagozg.githubrepos.features.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

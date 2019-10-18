@@ -61,6 +61,8 @@ dependencies {
     dagger()
     network()
     rxJava()
+    glide()
+    anko()
     unitTest()
     instrumentedTest()
 }

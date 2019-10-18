@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">GitHubRepos</string>
-    <string name="forks_count_label">Forks:</string>
-    <string name="stars_count_label">Stars:</string>
-    <string name="author_label">Author:</string>
+    <string name="forks_count_label">Forks: %d</string>
+    <string name="stars_count_label">Stars: %d</string>
+    <string name="author_label">Author: %s</string>
     <string name="photo_a11y">Photo of Repository</string>
+    <string name="error_dialog_title">Ops, we have a problem…</string>
+    <string name="error_dialog_msg">Do you want to try again?</string>
 </resources>

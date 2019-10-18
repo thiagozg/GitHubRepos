@@ -13,11 +13,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_recycler_top_bottom"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/pbRepositories"
-        tools:listitem="@layout/item_repository" />
+        tools:listitem="@layout/item_repository"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/pbRepositories"
