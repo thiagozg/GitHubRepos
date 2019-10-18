@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GitHubRepos</string>
+    <string name="forks_count_label">Forks:</string>
+    <string name="stars_count_label">Stars:</string>
+    <string name="author_label">Author:</string>
+    <string name="photo_a11y">Photo of Repository</string>
 </resources>

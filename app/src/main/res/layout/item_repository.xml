@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="@dimen/size_photo"
+            android:layout_height="@dimen/size_photo"
+            android:contentDescription="@string/photo_a11y"
+            android:layout_marginTop="@dimen/margin_photo_top_bottom"
+            android:layout_marginBottom="@dimen/margin_photo_top_bottom"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginStart="@dimen/margin_left_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/label_size"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_left_right"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginRight="@dimen/margin_left_right"
+            android:layout_marginEnd="@dimen/margin_left_right"
+            app:layout_constraintTop_toTopOf="@id/ivPhoto"
+            app:layout_constraintLeft_toRightOf="@id/ivPhoto"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Kotlin" />
+
+        <TextView
+            android:id="@+id/tvStarsCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_left_right"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginRight="@dimen/margin_left_right"
+            android:layout_marginEnd="@dimen/margin_left_right"
+            android:layout_marginTop="@dimen/margin_labels_top_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            app:layout_constraintLeft_toRightOf="@id/ivPhoto"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Stars: 15" />
+
+        <TextView
+            android:id="@+id/tvForksCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_left_right"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginRight="@dimen/margin_left_right"
+            android:layout_marginEnd="@dimen/margin_left_right"
+            android:layout_marginTop="@dimen/margin_labels_top_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/tvStarsCount"
+            app:layout_constraintLeft_toRightOf="@id/ivPhoto"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Forks: 15" />
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_left_right"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginTop="@dimen/margin_labels_top_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/tvForksCount"
+            app:layout_constraintLeft_toRightOf="@id/ivPhoto"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivPhoto"
+            tools:text="Author: JetBrains" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
