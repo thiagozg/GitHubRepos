@@ -69,6 +69,7 @@ ext {
         androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
         androidTestImplementation "com.squareup.okhttp3:mockwebserver:$versions.okHttp"
         androidTestImplementation "com.squareup.spoon:spoon-client:$versions.spoon"
+        androidTestImplementation "br.com.concretesolutions:kappuccino:$versions.kappuccino"
 
         kaptAndroidTest "com.google.dagger:dagger-compiler:$versions.dagger"
         kaptAndroidTest "com.google.dagger:dagger-android-processor:$versions.dagger"

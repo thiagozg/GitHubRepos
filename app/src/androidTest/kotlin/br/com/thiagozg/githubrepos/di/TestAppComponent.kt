@@ -1,6 +1,6 @@
 package br.com.thiagozg.githubrepos.di
 
-import br.com.thiagozg.githubrepos.CustomApplication
+import br.com.thiagozg.githubrepos.TestApplication
 import br.com.thiagozg.githubrepos.di.modules.*
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -11,15 +11,15 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    AndroidModule::class,
+    TestAndroidModule::class,
     NetworkModule::class,
-    RetrofitModule::class,
+    TestRetrofitModule::class,
     ApiModule::class,
     BuildersModule::class]
 )
-interface AppComponent : AndroidInjector<CustomApplication> {
+interface TestAppComponent : AndroidInjector<TestApplication> {
 
     @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<CustomApplication>()
+    abstract class Builder : AndroidInjector.Builder<TestApplication>()
 
 }
