@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient
 import android.content.SharedPreferences
 import android.icu.util.MeasureUnit.WEEK
 import androidx.core.content.edit
+import com.bumptech.glide.Glide
 
 
 @Module
@@ -58,7 +59,7 @@ class NetworkModule {
     ) = Interceptor { chain ->
         var request = chain.request()
         request = if (context.isOnline()) {
-            if (request.isPreviousCacheExpired(5 * MINUTE, encryptedSharedPreferences)) {
+            if (request.isPreviousCacheExpired(3 * MINUTE, encryptedSharedPreferences)) {
                 request.also {
                     it.storeCacheTime(encryptedSharedPreferences)
                 }.run {
@@ -67,7 +68,11 @@ class NetworkModule {
                         .removeHeader("Pragma")
                         .build()
                 }
-            } else request
+            } else {
+                request.also {
+                    Glide.get(context).clearDiskCache()
+                }
+            }
         } else {
             request.newBuilder()
                 .header("Cache-Control", "public, only-if-cached, max-stale=$WEEK")

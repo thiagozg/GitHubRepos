@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import br.com.thiagozg.githubrepos.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +27,7 @@ fun ImageView.bindImageView(
         .load(companyLogoUrl)
         .centerCrop()
         .placeholder(R.drawable.placehold_background)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(this)
 }
 
