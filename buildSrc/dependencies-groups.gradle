@@ -16,6 +16,7 @@ ext {
         implementation "androidx.cardview:cardview:$versions.cardView"
         implementation "androidx.activity:activity-ktx:$versions.androidKtx"
         implementation "androidx.core:core-ktx:$versions.coreKtx"
+        implementation "androidx.security:security-crypto:$versions.security"
     }
 
     architectureComponents = Group {
@@ -54,7 +55,7 @@ ext {
 
     glide = Group {
         implementation "com.github.bumptech.glide:glide:$versions.glide"
-        annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
+        kapt "com.github.bumptech.glide:compiler:$versions.glide"
     }
 
     anko = Group {

@@ -2,6 +2,9 @@ package br.com.thiagozg.githubrepos.base
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -38,3 +41,9 @@ inline fun <T : Any> LiveData<T>.observeNonNull(
 
 fun <T> Single<T>.handleSchedulers() = subscribeOn(Schedulers.io())
     .observeOn(AndroidSchedulers.mainThread())
+
+fun Context.isOnline(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+    val activeNetwork: NetworkInfo? = connectivityManager?.activeNetworkInfo
+    return activeNetwork != null && activeNetwork.isConnected
+}

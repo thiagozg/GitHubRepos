@@ -29,15 +29,18 @@ class MainViewModel @Inject constructor(
 
     fun fetchRepositories(isRetry: Boolean = false) {
         if (isRetry.not()) increasePage()
-        val params = FetchRepositoriesUseCase.Params(page = actualPage)
-        disposables.add(
-            fetchRepositoriesUseCase(params)
-                .doOnSubscribe { repositoriesData.value = StateLoading }
-                .subscribe(
-                    { updateRepositoriesData(it) },
-                    { repositoriesData.value = StateError(it) }
-                )
-        )
+        if (actualPage > previousPage || isRetry) {
+            previousPage = actualPage
+            val params = FetchRepositoriesUseCase.Params(page = actualPage)
+            disposables.add(
+                fetchRepositoriesUseCase(params)
+                    .doOnSubscribe { repositoriesData.value = StateLoading }
+                    .subscribe(
+                        { updateRepositoriesData(it) },
+                        { repositoriesData.value = StateError(it) }
+                    )
+            )
+        }
     }
 
     private fun updateRepositoriesData(bo: List<RepositoryBO>) {
@@ -51,7 +54,6 @@ class MainViewModel @Inject constructor(
         previousItemsShowingCount = actualItemsShowingCount
         actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
         if (actualPage > previousPage) {
-            previousPage = actualPage
             actualItemsShowingCount += PER_PAGE_TO_INCREASED
         } else {
             actualItemsShowingCount += PER_PAGE_TO_INCREASED
