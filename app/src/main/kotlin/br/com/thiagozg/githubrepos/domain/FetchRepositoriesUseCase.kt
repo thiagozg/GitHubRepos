@@ -1,10 +1,8 @@
 package br.com.thiagozg.githubrepos.domain
 
-import br.com.thiagozg.githubrepos.data.repository.MainRepository
 import br.com.thiagozg.githubrepos.domain.mapper.RepositoriesMapper
 import br.com.thiagozg.githubrepos.domain.model.RepositoryBO
 import io.reactivex.Single
-import javax.inject.Inject
 
 /*
  * Created by Thiago Zagui Giacomini on 17/10/2019.

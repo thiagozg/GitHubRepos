@@ -1,9 +1,13 @@
 package br.com.thiagozg.githubrepos.data.repository
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import br.com.thiagozg.githubrepos.base.handleSchedulers
-import br.com.thiagozg.githubrepos.data.GitHubApiDataSource
+import br.com.thiagozg.githubrepos.data.repository.datasource.GitHubApiDataSource
 import br.com.thiagozg.githubrepos.data.repository.model.RepositoriesResponse
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
+import br.com.thiagozg.githubrepos.domain.MainRepository
 import io.reactivex.Single
 
 /*

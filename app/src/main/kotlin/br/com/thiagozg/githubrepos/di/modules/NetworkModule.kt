@@ -20,8 +20,8 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideHttpCache(app: CustomApplication): Cache {
-        val cacheSize = 10 * 1024 * 1024
-        return Cache(app.cacheDir, cacheSize.toLong())
+        val cacheSize = 10L * 1024 * 1024
+        return Cache(app.cacheDir, cacheSize)
     }
 
     @Provides

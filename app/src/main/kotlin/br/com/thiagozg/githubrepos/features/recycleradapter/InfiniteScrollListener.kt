@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class InfiniteScrollListener(
     private val layoutManager: LinearLayoutManager,
-    private val onLoadMore: (totalItemsCount: Int) -> Unit
+    private val onLoadMore: () -> Unit
 ) : RecyclerView.OnScrollListener() {
 
     private var visibleThreshold = 5
@@ -33,7 +33,7 @@ class InfiniteScrollListener(
         }
 
         if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
-            onLoadMore(totalItemCount)
+            onLoadMore()
             loading = true
         }
     }

@@ -19,6 +19,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val repositoriesData = MutableLiveData<StateResponse>()
+    val shouldUpdateList = MutableLiveData<Boolean>().apply { value = true }
 
     private val disposables = CompositeDisposable()
     private var actualPage = 1
@@ -27,8 +28,9 @@ class MainViewModel @Inject constructor(
     private var previousItemsShowingCount = 0
     private var repositoriesListVo = mutableListOf<RepositoryVO>()
 
-    fun fetchRepositories(isRetry: Boolean = false, totalItemsCount: Int = 0) {
-        if (shouldFetchMoreItems(isRetry, totalItemsCount)) {
+    fun fetchRepositories(isRetry: Boolean = false) {
+        if (shouldFetchMoreItems(isRetry)) {
+            shouldUpdateList.value = true
             val params = FetchRepositoriesUseCase.Params(page = actualPage)
             disposables.add(
                 fetchRepositoriesUseCase(params)
@@ -46,25 +48,19 @@ class MainViewModel @Inject constructor(
         repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
         val newItems = repositoriesListVo.subList(startPosition, actualItemsShowingCount)
         repositoriesData.value = StateSuccess(newItems)
+        shouldUpdateList.value = false
     }
 
-    private fun shouldFetchMoreItems(
-        isRetry: Boolean,
-        totalItemCount: Int
-    ): Boolean {
+    private fun shouldFetchMoreItems(isRetry: Boolean): Boolean {
         if (isRetry.not()) {
-            if (actualItemsShowingCount >= totalItemCount) {
-                previousItemsShowingCount = actualItemsShowingCount
-                actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
-                if (actualPage > previousPage) {
-                    previousPage = actualPage
-                    actualItemsShowingCount += PER_PAGE_TO_INCREASED
-                    return true
-                } else {
-                    actualItemsShowingCount += PER_PAGE_TO_INCREASED
-                    increaseShowingItems()
-                }
+            previousItemsShowingCount = actualItemsShowingCount
+            actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
+            if (actualPage > previousPage) {
+                previousPage = actualPage
+                actualItemsShowingCount += PER_PAGE_TO_INCREASED
+                return true
             } else {
+                actualItemsShowingCount += PER_PAGE_TO_INCREASED
                 increaseShowingItems()
             }
         }

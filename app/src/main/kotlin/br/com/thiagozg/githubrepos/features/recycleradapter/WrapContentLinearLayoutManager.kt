@@ -14,7 +14,7 @@ class WrapContentLinearLayoutManager @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-): LinearLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
+) : LinearLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
 
     override fun supportsPredictiveItemAnimations() = false
 

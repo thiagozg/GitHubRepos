@@ -1,4 +1,4 @@
-package br.com.thiagozg.githubrepos.data
+package br.com.thiagozg.githubrepos.data.repository.datasource
 
 import br.com.thiagozg.githubrepos.data.repository.model.RepositoriesResponse
 import io.reactivex.Single

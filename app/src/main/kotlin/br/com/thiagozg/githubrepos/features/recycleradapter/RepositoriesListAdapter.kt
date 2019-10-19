@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.thiagozg.githubrepos.base.bindImageView
@@ -19,38 +18,27 @@ import javax.inject.Inject
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
 class RepositoriesListAdapter @Inject constructor()
-    : RecyclerView.Adapter<RepositoriesListAdapter.JobResultHolder>() {
+    : RecyclerView.Adapter<RepositoriesListAdapter.RepositoryHolder>() {
 
     private val repositoryList = mutableListOf<RepositoryVO>()
-//    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobResultHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder =
         LayoutInflater.from(parent.context)
             .inflate(br.com.thiagozg.githubrepos.R.layout.item_repository, parent, false)
-            .run { JobResultHolder(this) }
+            .run { RepositoryHolder(this) }
 
-    override fun onBindViewHolder(holder: JobResultHolder, position: Int) =
-//        holder.bind(asyncListDiffer.currentList[position])
+    override fun onBindViewHolder(holder: RepositoryHolder, position: Int) =
         holder.bind(repositoryList[position])
 
-//    override fun getItemCount() = asyncListDiffer.currentList.size
     override fun getItemCount() = repositoryList.size
 
     fun addItems(items: List<RepositoryVO>) {
         val positionStarted = repositoryList.size - 1
-//        if (repositoryList.size == 100) {
-//            val newList = repositoryList.slice(IntRange(75 - 1, 100)).toMutableList()
-//            newList.addAll(items)
-//            repositoryList.clear()
-//            repositoryList.addAll(newList)
-//        } else {
-            repositoryList.addAll(items)
-//        }
-//        asyncListDiffer.submitList(repositoryList)
+        repositoryList.addAll(items)
         notifyItemRangeInserted(positionStarted, repositoryList.size - 1)
     }
 
-    inner class JobResultHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class RepositoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(vo: RepositoryVO) = with(itemView) {
             ivPhoto.bindImageView(vo.photoUrl)
@@ -76,11 +64,6 @@ class RepositoriesListAdapter @Inject constructor()
             }
             startAnimation(anim)
         }
-    }
-
-    private object DIFF_CALLBACK: DiffUtil.ItemCallback<RepositoryVO>() {
-        override fun areItemsTheSame(oldItem: RepositoryVO, newItem: RepositoryVO) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: RepositoryVO, newItem: RepositoryVO) = oldItem == newItem
     }
 
     companion object {

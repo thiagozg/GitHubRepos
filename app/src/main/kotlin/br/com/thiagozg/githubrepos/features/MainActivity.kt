@@ -31,7 +31,7 @@ import javax.inject.Inject
  * Created by Thiago Zagui Giacomini on 17/10/2019.
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
-class MainActivity : BaseActivity(br.com.thiagozg.githubrepos.R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private var listState: Parcelable? = null
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -50,18 +50,17 @@ class MainActivity : BaseActivity(br.com.thiagozg.githubrepos.R.layout.activity_
     override fun onResume() {
         super.onResume()
         viewModel.fetchRepositories()
-        if (listState != null) {
-            rvRepositories.layoutManager?.onRestoreInstanceState(listState)
-        }
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun observeRepositoriesResult() {
         viewModel.repositoriesData.observeNonNull(this) { stateResponse ->
-            when (stateResponse) {
-                is StateSuccess<*> -> handleSuccessState(stateResponse)
-                is StateError -> handleErrorState()
-                is StateLoading -> pbRepositories.visibility = View.VISIBLE
+            if (viewModel.shouldUpdateList.value == true) {
+                when (stateResponse) {
+                    is StateSuccess<*> -> handleSuccessState(stateResponse)
+                    is StateError -> handleErrorState()
+                    is StateLoading -> pbRepositories.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -89,24 +88,12 @@ class MainActivity : BaseActivity(br.com.thiagozg.githubrepos.R.layout.activity_
         val linearLayoutManager = WrapContentLinearLayoutManager(context)
         layoutManager = linearLayoutManager
         val infiniteScrollListener =
-            InfiniteScrollListener(linearLayoutManager) { totalItemsCount ->
-                viewModel.fetchRepositories(totalItemsCount = totalItemsCount)
+            InfiniteScrollListener(linearLayoutManager) {
+                viewModel.fetchRepositories()
             }
         addOnScrollListener(infiniteScrollListener)
         addItemDecoration(DividerItemDecoration(context, VERTICAL))
         adapter = repositoriesAdapter
-    }
-
-    override fun onSaveInstanceState(state: Bundle) {
-        super.onSaveInstanceState(state)
-        state.putParcelable(LIST_STATE_KEY, rvRepositories.layoutManager?.onSaveInstanceState())
-    }
-
-    override fun onRestoreInstanceState(state: Bundle?) {
-        super.onRestoreInstanceState(state)
-        if (state != null) {
-            listState = state.getParcelable<Parcelable>(LIST_STATE_KEY)
-        }
     }
 
     companion object {

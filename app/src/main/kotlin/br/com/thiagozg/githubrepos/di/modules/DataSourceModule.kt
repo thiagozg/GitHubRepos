@@ -1,6 +1,6 @@
 package br.com.thiagozg.githubrepos.di.modules
 
-import br.com.thiagozg.githubrepos.data.GitHubApiDataSource
+import br.com.thiagozg.githubrepos.data.repository.datasource.GitHubApiDataSource
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
