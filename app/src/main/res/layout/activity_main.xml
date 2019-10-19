@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_recycler_top_bottom"
         android:layout_marginBottom="@dimen/margin_recycler_top_bottom"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/rvRepositories"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

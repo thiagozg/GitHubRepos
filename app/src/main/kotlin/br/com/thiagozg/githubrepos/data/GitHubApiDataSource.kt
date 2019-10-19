@@ -16,7 +16,7 @@ interface GitHubApiDataSource {
         @Query("q") language: String,
         @Query("sort") sort: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int
+        @Query("per_page") perPage: Int?
     ): Single<RepositoriesResponse>
 
 }

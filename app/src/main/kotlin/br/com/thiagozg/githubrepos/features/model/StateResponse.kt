@@ -1,4 +1,4 @@
-package br.com.thiagozg.githubrepos.domain.model
+package br.com.thiagozg.githubrepos.features.model
 
 /*
  * Created by Thiago Zagui Giacomini on 17/10/2019.

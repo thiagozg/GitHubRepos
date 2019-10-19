@@ -1,4 +1,4 @@
-package br.com.thiagozg.githubrepos.features
+package br.com.thiagozg.githubrepos.features.recycleradapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +32,9 @@ class RepositoriesListAdapter @Inject constructor()
     override fun getItemCount() = repositoryList.count()
 
     fun addItems(items: List<RepositoryVO>) {
-        repositoryList.clear()
+        val positionStarted = repositoryList.size - 1
         repositoryList.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(positionStarted, repositoryList.size)
     }
 
     inner class JobResultHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -58,7 +58,9 @@ class RepositoriesListAdapter @Inject constructor()
                 PIVOT_VALUE,
                 Animation.RELATIVE_TO_SELF,
                 PIVOT_VALUE
-            ).also { it.duration = FADE_DURATION }
+            ).also { it.duration =
+                FADE_DURATION
+            }
             startAnimation(anim)
         }
     }

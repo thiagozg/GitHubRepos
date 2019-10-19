@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.thiagozg.githubrepos.R
 import br.com.thiagozg.githubrepos.base.BaseActivity
 import br.com.thiagozg.githubrepos.base.observeNonNull
-import br.com.thiagozg.githubrepos.domain.model.StateError
-import br.com.thiagozg.githubrepos.domain.model.StateLoading
-import br.com.thiagozg.githubrepos.domain.model.StateSuccess
+import br.com.thiagozg.githubrepos.features.model.StateError
+import br.com.thiagozg.githubrepos.features.model.StateLoading
+import br.com.thiagozg.githubrepos.features.model.StateSuccess
 import br.com.thiagozg.githubrepos.features.model.RepositoryVO
+import br.com.thiagozg.githubrepos.features.recycleradapter.InfiniteScrollListener
+import br.com.thiagozg.githubrepos.features.recycleradapter.RepositoriesListAdapter
 import br.com.thiagozg.githubrepos.features.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -28,9 +30,7 @@ import javax.inject.Inject
  */
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var repositoriesAdapter: RepositoriesListAdapter
 
     private val viewModel by viewModels<MainViewModel> {
@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rvRepositories.bind()
+        rvRepositories.setup()
         observeRepositoriesResult()
     }
 
@@ -71,13 +71,19 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun handleErrorState() {
         pbRepositories.visibility = View.GONE
         alert(R.string.error_dialog_msg, R.string.error_dialog_title) {
-            yesButton { viewModel.fetchRepositories() }
+            yesButton { viewModel.fetchRepositories(isRetry = true) }
             noButton {}
         }.show()
     }
 
-    private fun RecyclerView.bind() {
-        layoutManager = LinearLayoutManager(context)
+    private fun RecyclerView.setup() {
+        val linearLayoutManager = LinearLayoutManager(context)
+        layoutManager = linearLayoutManager
+        val infiniteScrollListener =
+            InfiniteScrollListener(linearLayoutManager) { _, totalItemsCount ->
+                viewModel.fetchRepositories(totalItemsCount = totalItemsCount)
+            }
+        addOnScrollListener(infiniteScrollListener)
         addItemDecoration(DividerItemDecoration(context, VERTICAL))
         adapter = repositoriesAdapter
     }

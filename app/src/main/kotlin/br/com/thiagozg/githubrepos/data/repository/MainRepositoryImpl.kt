@@ -5,8 +5,6 @@ import br.com.thiagozg.githubrepos.data.GitHubApiDataSource
 import br.com.thiagozg.githubrepos.data.repository.model.RepositoriesResponse
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 /*
  * Created by Thiago Zagui Giacomini on 17/10/2019.

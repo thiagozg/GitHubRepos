@@ -3,10 +3,10 @@ package br.com.thiagozg.githubrepos.features.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
-import br.com.thiagozg.githubrepos.domain.model.StateError
-import br.com.thiagozg.githubrepos.domain.model.StateResponse
-import br.com.thiagozg.githubrepos.domain.model.StateSuccess
-import br.com.thiagozg.githubrepos.features.model.toVO
+import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase.Companion.PER_PAGE_LIMIT
+import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase.Companion.PER_PAGE_TO_INCREASED
+import br.com.thiagozg.githubrepos.domain.model.*
+import br.com.thiagozg.githubrepos.features.model.*
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -21,34 +21,67 @@ class MainViewModel @Inject constructor(
     val repositoriesData = MutableLiveData<StateResponse>()
 
     private val disposables = CompositeDisposable()
-    private var page = 0
-    private var perPage = 0
+    private var actualPage = 1
+    private var previousPage = 0
+    private var actualItemsShowingCount = PER_PAGE_TO_INCREASED
+    private var previousItemsShowingCount = 0
+    private var repositoriesListVo = mutableListOf<RepositoryVO>()
 
-    fun fetchRepositories() {
-        val params = getRequestParams()
-        disposables.add(
-            fetchRepositoriesUseCase(params)
-                .subscribe(
-                    { bo -> repositoriesData.value = StateSuccess(bo.map { it.toVO() }) },
-                    { repositoriesData.value = StateError(it) }
-                )
-        )
+    fun fetchRepositories(isRetry: Boolean = false, totalItemsCount: Int = 0) {
+        if (shouldFetchMoreItems(isRetry, totalItemsCount)) {
+            val params = FetchRepositoriesUseCase.Params(page = actualPage)
+            disposables.add(
+                fetchRepositoriesUseCase(params)
+                    .doOnSubscribe { repositoriesData.value = StateLoading }
+                    .subscribe(
+                        { updateRepositoriesData(it) },
+                        { repositoriesData.value = StateError(it) }
+                    )
+            )
+        }
     }
 
-    private fun getRequestParams(): FetchRepositoriesUseCase.Params {
-        perPage += PER_PAGE_REQUEST
-        page = perPage / PER_PAGE_LIMIT + 1
-        return FetchRepositoriesUseCase.Params(page = page, perPage = perPage)
+    private fun updateRepositoriesData(bo: List<RepositoryBO>) {
+        repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
+        val newItems = repositoriesListVo.subList(0, actualItemsShowingCount)
+        repositoriesData.value = StateSuccess(newItems)
+    }
+
+    private fun shouldFetchMoreItems(
+        isRetry: Boolean,
+        totalItemCount: Int
+    ): Boolean {
+        if (isRetry.not()) {
+            if (actualItemsShowingCount >= totalItemCount) {
+                previousItemsShowingCount = actualItemsShowingCount
+                actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
+                if (actualPage > previousPage) {
+                    previousPage = actualPage
+                    return true
+                } else {
+                    actualItemsShowingCount += PER_PAGE_TO_INCREASED
+                    increaseShowingItems()
+                }
+            } else {
+                increaseShowingItems()
+            }
+        }
+
+        return false
+    }
+
+    private fun increaseShowingItems() {
+        val maxLength = if (actualItemsShowingCount < repositoriesListVo.size) {
+            actualItemsShowingCount
+        } else repositoriesListVo.size
+        val newItems = repositoriesListVo.subList(
+            previousItemsShowingCount, maxLength)
+        repositoriesData.value = StateSuccess(newItems)
     }
 
     override fun onCleared() {
         super.onCleared()
         disposables.dispose()
-    }
-
-    companion object {
-        private const val PER_PAGE_REQUEST = 25
-        private const val PER_PAGE_LIMIT = 100
     }
 
 }

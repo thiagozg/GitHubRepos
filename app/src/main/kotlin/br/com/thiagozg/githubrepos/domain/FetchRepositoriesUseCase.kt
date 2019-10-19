@@ -23,11 +23,13 @@ class FetchRepositoriesUseCase(
         val language: String = DEFAULT_LANGUAGE,
         val sort: String = DEFAULT_SORT,
         val page: Int,
-        val perPage: Int
+        val perPage: Int = PER_PAGE_LIMIT
     )
 
     companion object {
         private const val DEFAULT_LANGUAGE = "kotlin"
         private const val DEFAULT_SORT = "stars"
+        const val PER_PAGE_TO_INCREASED = 25
+        const val PER_PAGE_LIMIT = 100
     }
 }
