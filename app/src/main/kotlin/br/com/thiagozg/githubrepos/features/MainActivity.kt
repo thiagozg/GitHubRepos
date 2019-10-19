@@ -7,7 +7,6 @@ import android.widget.LinearLayout.VERTICAL
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.thiagozg.githubrepos.R
 import br.com.thiagozg.githubrepos.base.BaseActivity

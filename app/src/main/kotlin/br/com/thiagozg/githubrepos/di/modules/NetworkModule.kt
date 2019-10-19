@@ -1,21 +1,22 @@
 package br.com.thiagozg.githubrepos.di.modules
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import br.com.thiagozg.githubrepos.CustomApplication
 import br.com.thiagozg.githubrepos.base.isOnline
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import okhttp3.*
+import okhttp3.Cache
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import okhttp3.OkHttpClient
-import android.content.SharedPreferences
-import android.icu.util.MeasureUnit.WEEK
-import androidx.core.content.edit
-import com.bumptech.glide.Glide
 
 
 @Module

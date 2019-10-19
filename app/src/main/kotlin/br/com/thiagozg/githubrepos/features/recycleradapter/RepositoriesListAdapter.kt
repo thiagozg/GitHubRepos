@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.thiagozg.githubrepos.base.bindImageView
 import br.com.thiagozg.githubrepos.features.model.RepositoryVO

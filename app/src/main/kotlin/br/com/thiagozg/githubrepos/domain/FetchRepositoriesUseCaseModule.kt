@@ -1,7 +1,7 @@
 package br.com.thiagozg.githubrepos.domain
 
-import br.com.thiagozg.githubrepos.data.repository.datasource.GitHubApiDataSource
 import br.com.thiagozg.githubrepos.data.repository.MainRepositoryImpl
+import br.com.thiagozg.githubrepos.data.repository.datasource.GitHubApiDataSource
 import br.com.thiagozg.githubrepos.domain.mapper.RepositoriesMapper
 import dagger.Module
 import dagger.Provides

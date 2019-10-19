@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase.Companion.PER_PAGE_LIMIT
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase.Companion.PER_PAGE_TO_INCREASED
-import br.com.thiagozg.githubrepos.domain.model.*
+import br.com.thiagozg.githubrepos.domain.model.RepositoryBO
 import br.com.thiagozg.githubrepos.features.model.*
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

@@ -1,7 +1,6 @@
 package br.com.thiagozg.githubrepos.domain
 
 import br.com.thiagozg.githubrepos.data.repository.model.RepositoriesResponse
-import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
 import io.reactivex.Single
 
 /*
