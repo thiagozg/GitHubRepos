@@ -19,7 +19,6 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val repositoriesData = MutableLiveData<StateResponse>()
-    val shouldUpdateList = MutableLiveData<Boolean>().apply { value = true }
 
     private val disposables = CompositeDisposable()
     private var actualPage = 1
@@ -29,18 +28,16 @@ class MainViewModel @Inject constructor(
     private var repositoriesListVo = mutableListOf<RepositoryVO>()
 
     fun fetchRepositories(isRetry: Boolean = false) {
-        if (shouldFetchMoreItems(isRetry)) {
-            shouldUpdateList.value = true
-            val params = FetchRepositoriesUseCase.Params(page = actualPage)
-            disposables.add(
-                fetchRepositoriesUseCase(params)
-                    .doOnSubscribe { repositoriesData.value = StateLoading }
-                    .subscribe(
-                        { updateRepositoriesData(it) },
-                        { repositoriesData.value = StateError(it) }
-                    )
-            )
-        }
+        if (isRetry.not()) increasePage()
+        val params = FetchRepositoriesUseCase.Params(page = actualPage)
+        disposables.add(
+            fetchRepositoriesUseCase(params)
+                .doOnSubscribe { repositoriesData.value = StateLoading }
+                .subscribe(
+                    { updateRepositoriesData(it) },
+                    { repositoriesData.value = StateError(it) }
+                )
+        )
     }
 
     private fun updateRepositoriesData(bo: List<RepositoryBO>) {
@@ -48,24 +45,18 @@ class MainViewModel @Inject constructor(
         repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
         val newItems = repositoriesListVo.subList(startPosition, actualItemsShowingCount)
         repositoriesData.value = StateSuccess(newItems)
-        shouldUpdateList.value = false
     }
 
-    private fun shouldFetchMoreItems(isRetry: Boolean): Boolean {
-        if (isRetry.not()) {
-            previousItemsShowingCount = actualItemsShowingCount
-            actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
-            if (actualPage > previousPage) {
-                previousPage = actualPage
-                actualItemsShowingCount += PER_PAGE_TO_INCREASED
-                return true
-            } else {
-                actualItemsShowingCount += PER_PAGE_TO_INCREASED
-                increaseShowingItems()
-            }
+    private fun increasePage() {
+        previousItemsShowingCount = actualItemsShowingCount
+        actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
+        if (actualPage > previousPage) {
+            previousPage = actualPage
+            actualItemsShowingCount += PER_PAGE_TO_INCREASED
+        } else {
+            actualItemsShowingCount += PER_PAGE_TO_INCREASED
+            increaseShowingItems()
         }
-
-        return false
     }
 
     private fun increaseShowingItems() {

@@ -55,12 +55,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     @Suppress("UNCHECKED_CAST")
     private fun observeRepositoriesResult() {
         viewModel.repositoriesData.observeNonNull(this) { stateResponse ->
-            if (viewModel.shouldUpdateList.value == true) {
-                when (stateResponse) {
-                    is StateSuccess<*> -> handleSuccessState(stateResponse)
-                    is StateError -> handleErrorState()
-                    is StateLoading -> pbRepositories.visibility = View.VISIBLE
-                }
+            when (stateResponse) {
+                is StateSuccess<*> -> handleSuccessState(stateResponse)
+                is StateError -> handleErrorState()
+                is StateLoading -> pbRepositories.visibility = View.VISIBLE
             }
         }
     }
