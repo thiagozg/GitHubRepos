@@ -12,6 +12,7 @@ object RepositoriesMapper {
     fun map(repositoriesResponse: RepositoriesResponse): List<RepositoryBO> {
         return repositoriesResponse.items.map {
             RepositoryBO(
+                id = it.id,
                 name = it.name,
                 starsCount = it.stargazersCount,
                 forkCount = it.forksCount,

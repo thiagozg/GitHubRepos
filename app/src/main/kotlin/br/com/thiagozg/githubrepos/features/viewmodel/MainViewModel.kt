@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
     private var actualPage = 1
     private var previousPage = 0
-    private var actualItemsShowingCount = PER_PAGE_TO_INCREASED
+    private var actualItemsShowingCount = 0
     private var previousItemsShowingCount = 0
     private var repositoriesListVo = mutableListOf<RepositoryVO>()
 
@@ -42,8 +42,9 @@ class MainViewModel @Inject constructor(
     }
 
     private fun updateRepositoriesData(bo: List<RepositoryBO>) {
+        val startPosition = repositoriesListVo.size
         repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
-        val newItems = repositoriesListVo.subList(0, actualItemsShowingCount)
+        val newItems = repositoriesListVo.subList(startPosition, actualItemsShowingCount)
         repositoriesData.value = StateSuccess(newItems)
     }
 
@@ -57,6 +58,7 @@ class MainViewModel @Inject constructor(
                 actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
                 if (actualPage > previousPage) {
                     previousPage = actualPage
+                    actualItemsShowingCount += PER_PAGE_TO_INCREASED
                     return true
                 } else {
                     actualItemsShowingCount += PER_PAGE_TO_INCREASED

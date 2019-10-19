@@ -32,7 +32,7 @@ class NetworkModule {
     @Singleton
     fun providesOkHttpClient(cache: Cache): OkHttpClient {
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = HttpLoggingInterceptor.Level.BASIC
 
         return OkHttpClient.Builder()
             .connectTimeout(TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)

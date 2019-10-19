@@ -9,14 +9,34 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class InfiniteScrollListener(
     private val layoutManager: LinearLayoutManager,
-    private val onLoadMore: (page: Int, totalItemsCount: Int) -> Unit
+    private val onLoadMore: (totalItemsCount: Int) -> Unit
 ) : RecyclerView.OnScrollListener() {
 
     private var visibleThreshold = 5
-    private var currentPage = 0
     private var previousTotalItemCount = 0
     private var loading = true
-    private val startingPageIndex = 0
+
+    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+        val totalItemCount = layoutManager.itemCount
+
+        if (totalItemCount < previousTotalItemCount) {
+            this.previousTotalItemCount = totalItemCount
+            if (totalItemCount == 0) {
+                this.loading = true
+            }
+        }
+
+        if (loading && totalItemCount > previousTotalItemCount) {
+            loading = false
+            previousTotalItemCount = totalItemCount
+        }
+
+        if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
+            onLoadMore(totalItemCount)
+            loading = true
+        }
+    }
 
     fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
         var maxSize = 0
@@ -30,32 +50,7 @@ class InfiniteScrollListener(
         return maxSize
     }
 
-    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-        val totalItemCount = layoutManager.itemCount
-
-        if (totalItemCount < previousTotalItemCount) {
-            this.currentPage = this.startingPageIndex
-            this.previousTotalItemCount = totalItemCount
-            if (totalItemCount == 0) {
-                this.loading = true
-            }
-        }
-
-        if (loading && totalItemCount > previousTotalItemCount - 1) {
-            loading = false
-            previousTotalItemCount = totalItemCount
-        }
-
-        if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
-            currentPage++
-            onLoadMore(currentPage, totalItemCount)
-            loading = true
-        }
-    }
-
     fun resetState() {
-        this.currentPage = this.startingPageIndex
         this.previousTotalItemCount = 0
         this.loading = true
     }

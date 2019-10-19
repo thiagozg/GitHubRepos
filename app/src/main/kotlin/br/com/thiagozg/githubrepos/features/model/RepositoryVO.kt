@@ -6,7 +6,8 @@ import br.com.thiagozg.githubrepos.domain.model.RepositoryBO
  * Created by Thiago Zagui Giacomini on 18/10/2019.
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
-class RepositoryVO(
+data class RepositoryVO(
+    val id: Int,
     val name: String,
     val starsCount: Int,
     val forkCount: Int,
@@ -15,5 +16,5 @@ class RepositoryVO(
 )
 
 fun RepositoryBO.toVO() = RepositoryVO(
-    name, starsCount, forkCount, photoUrl, authorName
+    id, name, starsCount, forkCount, photoUrl, authorName
 )

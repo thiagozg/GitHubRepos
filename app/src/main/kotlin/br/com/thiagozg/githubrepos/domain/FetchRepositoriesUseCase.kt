@@ -20,13 +20,14 @@ class FetchRepositoriesUseCase(
             .map { repositoriesMapper.map(it) }
 
     data class Params(
-        val language: String = DEFAULT_LANGUAGE,
+        val language: String = "$LANGUAGE_LABEL:$DEFAULT_LANGUAGE",
         val sort: String = DEFAULT_SORT,
         val page: Int,
         val perPage: Int = PER_PAGE_LIMIT
     )
 
     companion object {
+        private const val LANGUAGE_LABEL = "language"
         private const val DEFAULT_LANGUAGE = "kotlin"
         private const val DEFAULT_SORT = "stars"
         const val PER_PAGE_TO_INCREASED = 25
