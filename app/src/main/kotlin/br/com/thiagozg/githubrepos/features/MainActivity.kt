@@ -51,7 +51,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         viewModel.fetchRepositories()
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun observeRepositoriesResult() {
         viewModel.repositoriesData.observeNonNull(this) { stateResponse ->
             when (stateResponse) {
@@ -62,6 +61,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun handleSuccessState(stateResponse: StateSuccess<*>) {
         rvRepositories.visibility = View.VISIBLE
         pbRepositories.visibility = View.GONE

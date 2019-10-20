@@ -18,7 +18,6 @@ class MainRepositoryImpl(
     override fun searchByQuery(
         params: FetchRepositoriesUseCase.Params
     ): Single<RepositoriesResponse> {
-        // TODO cache images
         return params.run {
             apiDataSource
                 .searchRepositories(language, sort, page, perPage)

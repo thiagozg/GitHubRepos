@@ -32,7 +32,7 @@ class RepositoriesListAdapter @Inject constructor()
     override fun getItemCount() = repositoryList.size
 
     fun addItems(items: List<RepositoryVO>) {
-        val positionStarted = repositoryList.size - 1
+        val positionStarted = repositoryList.size
         repositoryList.addAll(items)
         notifyItemRangeInserted(positionStarted, repositoryList.size - 1)
     }

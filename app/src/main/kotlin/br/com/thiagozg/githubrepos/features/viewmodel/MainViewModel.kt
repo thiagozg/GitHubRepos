@@ -46,7 +46,7 @@ class MainViewModel @Inject constructor(
     private fun updateRepositoriesData(bo: List<RepositoryBO>) {
         val startPosition = repositoriesListVo.size
         repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
-        val newItems = repositoriesListVo.subList(startPosition, actualItemsShowingCount)
+        val newItems = repositoriesListVo.subList(startPosition, maxLength())
         repositoriesData.value = StateSuccess(newItems)
     }
 
@@ -62,13 +62,14 @@ class MainViewModel @Inject constructor(
     }
 
     private fun increaseShowingItems() {
-        val maxLength = if (actualItemsShowingCount < repositoriesListVo.size) {
-            actualItemsShowingCount
-        } else repositoriesListVo.size
         val newItems = repositoriesListVo.subList(
-            previousItemsShowingCount, maxLength)
+            previousItemsShowingCount, maxLength())
         repositoriesData.value = StateSuccess(newItems)
     }
+
+    private fun maxLength() = if (actualItemsShowingCount < repositoriesListVo.size) {
+        actualItemsShowingCount
+    } else repositoriesListVo.size
 
     override fun onCleared() {
         super.onCleared()

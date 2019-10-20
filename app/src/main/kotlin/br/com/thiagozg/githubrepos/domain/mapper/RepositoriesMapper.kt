@@ -15,7 +15,7 @@ object RepositoriesMapper {
                 id = it.id,
                 name = it.name,
                 starsCount = it.stargazersCount,
-                forkCount = it.forksCount,
+                forksCount = it.forksCount,
                 photoUrl = it.owner.avatarUrl,
                 authorName = it.owner.login
             )

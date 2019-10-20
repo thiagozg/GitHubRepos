@@ -16,5 +16,5 @@ data class RepositoryVO(
 )
 
 fun RepositoryBO.toVO() = RepositoryVO(
-    id, name, starsCount, forkCount, photoUrl, authorName
+    id, name, starsCount, forksCount, photoUrl, authorName
 )
