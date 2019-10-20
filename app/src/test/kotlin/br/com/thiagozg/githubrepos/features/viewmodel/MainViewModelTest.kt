@@ -44,32 +44,41 @@ class MainViewModelTest {
 
     @Test
     fun `when receive Success Response should return StateSuccess with List of RepositoryVO`() {
+        // given
         val repositoriesBO = mockSuccessResponse()
 
+        // when
         viewModel.fetchRepositories(false)
 
+        // then
         verifyPrivateFunctions(repositoriesBO)
         verifySuccessResponseData()
     }
 
     @Test(expected = IOException::class)
     fun `when receive Success Response should return StateError with Throwable`() {
+        // given
         val ioException = IOException()
         every {
             useCase(any())
         } throws ioException
 
+        // when
         viewModel.fetchRepositories(false)
 
+        // then
         verifyErrorData()
     }
 
     @Test
     fun `when request without retry flag should increase page`() {
+        // given
         mockSuccessResponse()
 
+        // when
         viewModel.fetchRepositories(false)
 
+        // then
         verifyOrder {
             viewModel.fetchRepositories(false)
             viewModel["increasePage"]()
@@ -78,10 +87,13 @@ class MainViewModelTest {
 
     @Test
     fun `when request with retry flag should not increase page`() {
+        // given
         mockSuccessResponse()
 
+        // when
         viewModel.fetchRepositories(true)
 
+        // then
         verify(exactly = 0) {
             viewModel["increasePage"]()
         }
@@ -89,11 +101,14 @@ class MainViewModelTest {
 
     @Test
     fun `when request less thant storage list should not request more network data`() {
+        // given
         mockSuccessResponse()
 
+        // when
         viewModel.fetchRepositories(false)
         viewModel.fetchRepositories(false)
 
+        // then
         verifyOrder {
             viewModel["increasePage"]()
             viewModel["increaseShowingItems"]()

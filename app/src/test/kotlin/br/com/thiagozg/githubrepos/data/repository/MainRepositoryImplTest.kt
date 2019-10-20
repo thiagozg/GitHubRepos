@@ -26,15 +26,18 @@ class MainRepositoryImplTest {
 
     @Test
     fun `#searchByQuery() should return Single of RepositoriesResponse`() {
+        // given
         val expectedResult = createRepositoriesResponse()
         every {
             apiDataSource.searchRepositories(any(), any(), any(), any())
         } returns Single.just(createRepositoriesResponse())
 
+        // when
         val singleResponse = mainRepository.searchByQuery(
             FetchRepositoriesUseCase.Params(page = 1))
         val testObserver = singleResponse.test()
 
+        // then
         assertThat(singleResponse).isNotNull
         assertThat(singleResponse).isExactlyInstanceOf(SingleObserveOn::class.java)
         testObserver.assertTerminated()

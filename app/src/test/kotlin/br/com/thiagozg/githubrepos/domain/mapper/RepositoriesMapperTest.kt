@@ -12,8 +12,13 @@ class RepositoriesMapperTest {
 
     @Test
     fun `validate if is doing the correct mapping`() {
+        // given
         val mockRepositoriesResponse = createRepositoriesResponse()
+
+        // when
         val repositoriesBO = RepositoriesMapper.map(mockRepositoriesResponse)
+
+        // then
         assertThat(repositoriesBO).isNotEmpty
         assertThat(repositoriesBO.size).isEqualTo(mockRepositoriesResponse.items.size)
         repositoriesBO.forEachIndexed { index, repositoryBO ->

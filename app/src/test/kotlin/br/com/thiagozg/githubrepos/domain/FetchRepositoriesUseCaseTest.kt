@@ -28,15 +28,18 @@ class FetchRepositoriesUseCaseTest {
 
     @Test
     fun `when receive Repositories Response should return Single of RepositoriesBO`() {
+        // given
         val expectedResult = RepositoriesMapper.map(createRepositoriesResponse())
         every {
             mainRepository.searchByQuery(any())
         } returns Single.just(createRepositoriesResponse())
 
+        // when
         val singleResponse = useCase(
             FetchRepositoriesUseCase.Params(page = 1))
         val testObserver = singleResponse.test()
 
+        // then
         assertThat(singleResponse).isNotNull
         assertThat(singleResponse).isExactlyInstanceOf(SingleMap::class.java)
         testObserver.assertTerminated()
