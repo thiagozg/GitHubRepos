@@ -32,9 +32,9 @@ class RepositoriesListAdapter @Inject constructor()
     override fun getItemCount() = repositoryList.size
 
     fun addItems(items: List<RepositoryVO>) {
-        val positionStarted = repositoryList.size
-        repositoryList.addAll(items)
-        notifyItemRangeInserted(positionStarted, repositoryList.size - 1)
+        val positionStarted = repositoryList.size.takeIf { it > 0 } ?: 0
+        repositoryList.addAll(items.subList(positionStarted, items.size))
+        notifyItemRangeInserted(positionStarted, repositoryList.size)
     }
 
     inner class RepositoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

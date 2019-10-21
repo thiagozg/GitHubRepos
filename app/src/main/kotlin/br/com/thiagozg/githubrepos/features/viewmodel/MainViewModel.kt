@@ -18,14 +18,19 @@ class MainViewModel @Inject constructor(
     private val fetchRepositoriesUseCase: FetchRepositoriesUseCase
 ) : ViewModel() {
 
+    private val repositoriesFullListData = MutableLiveData<MutableList<RepositoryVO>>().apply {
+        value = mutableListOf()
+    }
     val repositoriesData = MutableLiveData<StateResponse>()
+
+    var currentPosition = 0
+        private set
 
     private val disposables = CompositeDisposable()
     private var actualPage = 1
     private var previousPage = 0
     private var actualItemsShowingCount = 0
     private var previousItemsShowingCount = 0
-    private var repositoriesListVo = mutableListOf<RepositoryVO>()
 
     fun fetchRepositories(isRetry: Boolean = false) {
         if (isRetry.not()) increasePage()
@@ -43,12 +48,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun updateRepositoriesData(bo: List<RepositoryBO>) {
-        val startPosition = repositoriesListVo.size
-        repositoriesListVo.addAll(bo.map { it.toVO() }.toMutableList())
-        val newItems = repositoriesListVo.subList(startPosition, maxLength())
-        repositoriesData.value = StateSuccess(newItems)
+    fun saveState(currentPosition: Int) {
+        this.currentPosition = currentPosition
     }
+
+    private fun updateRepositoriesData(bo: List<RepositoryBO>) {
+        repositoriesFullListData.value?.run {
+            addAll(bo.map { it.toVO() }.toMutableList())
+            repositoriesData.value = StateSuccess(getNewItems())
+        }
+    }
+
+    private fun MutableList<RepositoryVO>.getNewItems() = subList(0, maxLength())
 
     private fun increasePage() {
         previousItemsShowingCount = actualItemsShowingCount
@@ -62,14 +73,13 @@ class MainViewModel @Inject constructor(
     }
 
     private fun increaseShowingItems() {
-        val newItems = repositoriesListVo.subList(
-            previousItemsShowingCount, maxLength())
+        val newItems = repositoriesFullListData.value?.getNewItems()
         repositoriesData.value = StateSuccess(newItems)
     }
 
-    private fun maxLength() = if (actualItemsShowingCount < repositoriesListVo.size) {
-        actualItemsShowingCount
-    } else repositoriesListVo.size
+    private fun maxLength(): Int = repositoriesFullListData.value?.size?.takeUnless {
+        actualItemsShowingCount < it
+    } ?: actualItemsShowingCount
 
     override fun onCleared() {
         super.onCleared()

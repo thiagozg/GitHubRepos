@@ -20,7 +20,7 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(client: OkHttpClient, gson: Gson) =
+    fun providesRetrofit(client: OkHttpClient, gson: Gson): Retrofit =
             builder(gson)
                     .baseUrl(BASE_URL_GIT_HUB_API_DATA_SOURCE)
                     .client(client)

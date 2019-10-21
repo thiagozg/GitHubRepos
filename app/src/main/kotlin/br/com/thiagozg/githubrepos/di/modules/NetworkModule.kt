@@ -46,7 +46,7 @@ class NetworkModule {
             .cache(cache)
             .addNetworkInterceptor(logging)
             .addInterceptor(logging)
-            .addNetworkInterceptor(responseInterceptor)
+            .addNetworkInterceptor(responseInterceptor())
             .addInterceptor(requestInterceptor(context, encryptedSharedPreferences))
             .build()
     }

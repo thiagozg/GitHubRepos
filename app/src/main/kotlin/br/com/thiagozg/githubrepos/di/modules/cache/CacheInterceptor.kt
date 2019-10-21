@@ -26,19 +26,15 @@ object CacheInterceptor {
     ) = Interceptor { chain ->
         var request = chain.request()
         request = if (context.isOnline()) {
-            if (request.isPreviousCacheExpired(3 * MINUTE, encryptedSharedPreferences)) {
-                request.also {
-                    it.storeCacheTime(encryptedSharedPreferences)
-                }.run {
+            request.run {
+                if (isPreviousCacheExpired(5 * MINUTE, encryptedSharedPreferences)) {
+                    Glide.get(context).clearDiskCache()
+                    storeCacheTime(encryptedSharedPreferences)
                     newBuilder()
                         .header("Cache-Control", "public, must-revalidate, max-age=" + 2 * MINUTE)
                         .removeHeader("Pragma")
                         .build()
-                }
-            } else {
-                request.also {
-                    Glide.get(context).clearDiskCache()
-                }
+                } else request
             }
         } else {
             request.newBuilder()
@@ -49,8 +45,10 @@ object CacheInterceptor {
         chain.proceed(request)
     }
 
-    val responseInterceptor = Interceptor { chain ->
-        val originalResponse = chain.proceed(chain.request())
+    fun responseInterceptor() = Interceptor { chain ->
+        val request = chain.request().also {
+        }
+        val originalResponse = chain.proceed(request)
         val cacheControl = originalResponse.header("Cache-Control")
         if (cacheControl == null || cacheControl.contains("no-store") || cacheControl.contains("no-cache")
             || cacheControl.contains("must-revalidate") || cacheControl.contains("max-age=0")) {
