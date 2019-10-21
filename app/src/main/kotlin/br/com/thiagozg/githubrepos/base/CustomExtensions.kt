@@ -19,10 +19,10 @@ import io.reactivex.schedulers.Schedulers
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
 fun ImageView.bindImageView(
-    companyLogoUrl: String
+    photoUrl: String
 ) {
     Glide.with(this)
-        .load(companyLogoUrl)
+        .load(photoUrl)
         .centerCrop()
         .placeholder(R.drawable.placehold_background)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
