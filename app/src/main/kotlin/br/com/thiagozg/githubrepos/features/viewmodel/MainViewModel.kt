@@ -66,10 +66,8 @@ class MainViewModel @Inject constructor(
     private fun increasePage() {
         previousItemsShowingCount = actualItemsShowingCount
         actualPage = actualItemsShowingCount / PER_PAGE_LIMIT + 1
-        if (actualPage > previousPage) {
-            actualItemsShowingCount += PER_PAGE_TO_INCREASED
-        } else {
-            actualItemsShowingCount += PER_PAGE_TO_INCREASED
+        actualItemsShowingCount += PER_PAGE_TO_INCREASED
+        if (actualPage == previousPage) {
             increaseShowingItems()
         }
     }

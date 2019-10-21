@@ -29,6 +29,6 @@ class FetchRepositoriesUseCase(
         private const val DEFAULT_LANGUAGE = "kotlin"
         private const val DEFAULT_SORT = "stars"
         const val PER_PAGE_TO_INCREASED = 25
-        const val PER_PAGE_LIMIT = 100
+        const val PER_PAGE_LIMIT = 50
     }
 }

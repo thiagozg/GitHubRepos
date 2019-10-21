@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import br.com.thiagozg.githubrepos.R
 import br.com.thiagozg.githubrepos.base.BaseActivity
 import br.com.thiagozg.githubrepos.base.observeNonNull
 import br.com.thiagozg.githubrepos.features.model.RepositoryVO
@@ -28,7 +29,7 @@ import javax.inject.Inject
  * Created by Thiago Zagui Giacomini on 17/10/2019.
  * See thiagozg on GitHub: https://github.com/thiagozg
  */
-class MainActivity : BaseActivity(br.com.thiagozg.githubrepos.R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var repositoriesAdapter: RepositoriesListAdapter
