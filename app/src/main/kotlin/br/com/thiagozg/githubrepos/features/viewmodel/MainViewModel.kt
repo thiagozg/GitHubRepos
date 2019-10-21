@@ -18,8 +18,10 @@ class MainViewModel @Inject constructor(
     private val fetchRepositoriesUseCase: FetchRepositoriesUseCase
 ) : ViewModel() {
 
-    private val repositoriesFullListData = MutableLiveData<MutableList<RepositoryVO>>().apply {
-        value = mutableListOf()
+    private val repositoriesFullListData: MutableLiveData<MutableList<RepositoryVO>> by lazy {
+        MutableLiveData<MutableList<RepositoryVO>>().apply {
+            value = mutableListOf()
+        }
     }
     val repositoriesData = MutableLiveData<StateResponse>()
 

@@ -16,12 +16,10 @@ import br.com.thiagozg.githubrepos.features.model.StateSuccess
 import br.com.thiagozg.githubrepos.features.recycleradapter.InfiniteScrollListener
 import br.com.thiagozg.githubrepos.features.recycleradapter.RepositoriesListAdapter
 import br.com.thiagozg.githubrepos.features.recycleradapter.WrapContentLinearLayoutManager
-import br.com.thiagozg.githubrepos.features.recycleradapter.WrapContentLinearLayoutManager.Companion.ITEM_OFFSET_PIXELS
 import br.com.thiagozg.githubrepos.features.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
-import org.jetbrains.anko.topPadding
 import org.jetbrains.anko.yesButton
 import javax.inject.Inject
 

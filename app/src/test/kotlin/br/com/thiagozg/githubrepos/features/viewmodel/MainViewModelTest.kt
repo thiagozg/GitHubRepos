@@ -115,6 +115,15 @@ class MainViewModelTest {
         }
     }
 
+    @Test
+    fun `#saveState() should record #currentPosition property`() {
+        // when
+        viewModel.saveState(10)
+
+        // then
+        assertThat(viewModel.currentPosition).isEqualTo(10)
+    }
+
     private fun mockSuccessResponse(): MutableList<RepositoryBO> {
         val mockRepositoriesBO = mutableListOf<RepositoryBO>()
         for (i in 0 until 100) {
