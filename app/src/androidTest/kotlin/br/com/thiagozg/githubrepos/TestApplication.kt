@@ -1,13 +1,5 @@
 package br.com.thiagozg.githubrepos
 
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
-import br.com.thiagozg.githubrepos.di.DaggerTestAppComponent
+import android.app.Application
 
-class TestApplication : DaggerApplication() {
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerTestAppComponent.builder().create(this)
-    }
-
-}
+class TestApplication : Application()

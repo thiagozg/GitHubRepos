@@ -66,28 +66,24 @@ ext {
         testImplementation "junit:junit:$versions.jUnit"
         testImplementation "io.mockk:mockk:$versions.mockk"
         testImplementation "org.assertj:assertj-core:$versions.assertjCore"
+        testImplementation "androidx.test:core:$versions.androidTestCore"
         testImplementation "androidx.arch.core:core-testing:$versions.architecture"
         testImplementation "com.github.Plastix.RxSchedulerRule:rx2:$versions.rxSchedulerRule"
-        testImplementation "androidx.test:core:$versions.androidTestCore"
         testImplementation "org.robolectric:robolectric:$versions.robolectric"
     }
 
     instrumentedTest = Group {
-        androidTestImplementation "com.android.support.test:runner:$versions.testRunner"
-        androidTestImplementation "com.android.support.test:rules:$versions.testRunner"
-        androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:$versions.uiAutomator"
-        androidTestImplementation ("com.android.support.test.espresso:espresso-core:$versions.espresso") {
+        androidTestImplementation "io.mockk:mockk-android:$versions.mockk"
+        androidTestImplementation "androidx.test:core:$versions.androidTestCore"
+        androidTestImplementation "androidx.arch.core:core-testing:$versions.architecture"
+        androidTestImplementation "androidx.test.ext:junit:$versions.androidJunit"
+        androidTestImplementation "androidx.test:runner:$versions.testRunner"
+        androidTestImplementation "androidx.test:rules:$versions.testRunner"
+        androidTestImplementation "androidx.test.uiautomator:uiautomator:$versions.uiAutomator"
+        androidTestImplementation ("androidx.test.espresso:espresso-core:$versions.espresso") {
             exclude group: 'javax.inject', module: 'javax.inject'
             exclude group: 'com.squareup', module: 'javawriter'
         }
-
-        androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
-        androidTestImplementation "com.squareup.okhttp3:mockwebserver:$versions.okHttp"
-        androidTestImplementation "com.squareup.spoon:spoon-client:$versions.spoon"
-        androidTestImplementation "br.com.concretesolutions:kappuccino:$versions.kappuccino"
-
-        kaptAndroidTest "com.google.dagger:dagger-compiler:$versions.dagger"
-        kaptAndroidTest "com.google.dagger:dagger-android-processor:$versions.dagger"
     }
 
 }

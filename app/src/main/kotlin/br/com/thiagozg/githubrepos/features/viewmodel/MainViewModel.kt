@@ -1,5 +1,6 @@
 package br.com.thiagozg.githubrepos.features.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.thiagozg.githubrepos.domain.FetchRepositoriesUseCase
@@ -23,7 +24,10 @@ class MainViewModel @Inject constructor(
             value = mutableListOf()
         }
     }
-    val repositoriesData = MutableLiveData<StateResponse>()
+
+    private val _repositoriesData = MutableLiveData<StateResponse>()
+    val repositoriesData: LiveData<StateResponse>
+        get() = _repositoriesData
 
     var currentPosition = 0
         private set
@@ -41,10 +45,10 @@ class MainViewModel @Inject constructor(
             val params = FetchRepositoriesUseCase.Params(page = actualPage)
             disposables.add(
                 fetchRepositoriesUseCase(params)
-                    .doOnSubscribe { repositoriesData.value = StateLoading }
+                    .doOnSubscribe { _repositoriesData.value = StateLoading }
                     .subscribe(
                         { updateRepositoriesData(it) },
-                        { repositoriesData.value = StateError(it) }
+                        { _repositoriesData.value = StateError(it) }
                     )
             )
         }
@@ -57,7 +61,7 @@ class MainViewModel @Inject constructor(
     private fun updateRepositoriesData(bo: List<RepositoryBO>) {
         repositoriesFullListData.value?.run {
             addAll(bo.map { it.toVO() }.toMutableList())
-            repositoriesData.value = StateSuccess(getNewItems())
+            _repositoriesData.value = StateSuccess(getNewItems())
         }
     }
 
@@ -74,7 +78,7 @@ class MainViewModel @Inject constructor(
 
     private fun increaseShowingItems() {
         val newItems = repositoriesFullListData.value?.getNewItems()
-        repositoriesData.value = StateSuccess(newItems)
+        _repositoriesData.value = StateSuccess(newItems)
     }
 
     private fun maxLength(): Int = repositoriesFullListData.value?.size?.takeUnless {

@@ -1,5 +1,6 @@
 package br.com.thiagozg.githubrepos.di.modules
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import br.com.thiagozg.githubrepos.CustomApplication
@@ -21,8 +22,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpCache(app: CustomApplication): Cache {
+    fun provideHttpCache(context: Context): Cache {
         val cacheSize = 10L * 1024 * 1024
+        val app = context as Application
         return Cache(app.cacheDir, cacheSize)
     }
 

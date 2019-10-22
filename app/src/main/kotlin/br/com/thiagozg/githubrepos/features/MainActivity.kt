@@ -1,6 +1,7 @@
 package br.com.thiagozg.githubrepos.features
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout.VERTICAL
 import androidx.activity.viewModels
@@ -65,15 +66,17 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             when (stateResponse) {
                 is StateSuccess<*> -> handleSuccessState(stateResponse)
                 is StateError -> handleErrorState()
-                is StateLoading -> pbRepositories.visibility = View.VISIBLE
+                is StateLoading -> handleLoadingState()
             }
         }
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun handleSuccessState(stateResponse: StateSuccess<*>) {
-        rvRepositories.visibility = View.VISIBLE
-        pbRepositories.visibility = View.GONE
+        runOnUiThread {
+            rvRepositories.visibility = View.VISIBLE
+            pbRepositories.visibility = View.GONE
+        }
         val items = stateResponse.data
         if (items is List<*> && items.isNotEmpty() && items[0] is RepositoryVO) {
             rvRepositories.post {
@@ -90,20 +93,23 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun handleErrorState() {
-        pbRepositories.visibility = View.GONE
+        runOnUiThread { pbRepositories.visibility = View.GONE }
         alert(br.com.thiagozg.githubrepos.R.string.error_dialog_msg, br.com.thiagozg.githubrepos.R.string.error_dialog_title) {
             yesButton { viewModel.fetchRepositories(isRetry = true) }
             noButton {}
         }.show()
     }
 
+    private fun handleLoadingState() {
+        runOnUiThread { pbRepositories.visibility = View.VISIBLE }
+    }
+
     private fun RecyclerView.setup() {
         linearLayoutManager = WrapContentLinearLayoutManager(context)
         layoutManager = linearLayoutManager
-        val infiniteScrollListener =
-            InfiniteScrollListener(linearLayoutManager) {
-                viewModel.fetchRepositories()
-            }
+        val infiniteScrollListener = InfiniteScrollListener(linearLayoutManager) {
+            viewModel.fetchRepositories()
+        }
         addOnScrollListener(infiniteScrollListener)
         addItemDecoration(DividerItemDecoration(context, VERTICAL))
         adapter = repositoriesAdapter
