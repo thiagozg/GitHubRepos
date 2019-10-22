@@ -79,11 +79,14 @@ ext {
         androidTestImplementation "androidx.test.ext:junit:$versions.androidJunit"
         androidTestImplementation "androidx.test:runner:$versions.testRunner"
         androidTestImplementation "androidx.test:rules:$versions.testRunner"
+        androidTestImplementation "androidx.test:monitor:$versions.testRunner"
         androidTestImplementation "androidx.test.uiautomator:uiautomator:$versions.uiAutomator"
         androidTestImplementation ("androidx.test.espresso:espresso-core:$versions.espresso") {
             exclude group: 'javax.inject', module: 'javax.inject'
             exclude group: 'com.squareup', module: 'javawriter'
         }
+        androidTestImplementation "androidx.test.espresso:espresso-contrib:$versions.espresso"
+        androidTestUtil "androidx.test:orchestrator:$versions.testRunner"
     }
 
 }

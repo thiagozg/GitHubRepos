@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "br.com.thiagozg.githubrepos.TestRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -20,7 +21,7 @@ android {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
         release {
             minifyEnabled false
@@ -53,8 +54,12 @@ android {
     }
 
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
-            all { systemProperty 'robolectric.enabledSdks', '21' }
+            all {
+                systemProperty 'robolectric.enabledSdks', '21'
+                ignoreFailures = true
+            }
             returnDefaultValues = true
             includeAndroidResources = true
         }

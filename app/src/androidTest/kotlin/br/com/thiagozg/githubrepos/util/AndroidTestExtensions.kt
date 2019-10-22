@@ -1,8 +1,10 @@
-package br.com.thiagozg.githubrepos
+package br.com.thiagozg.githubrepos.util
 
 import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
@@ -10,7 +12,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import br.com.thiagozg.githubrepos.AndroidTestConstants.GSON
+import br.com.thiagozg.githubrepos.util.AndroidTestConstants.GSON
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.hamcrest.CoreMatchers.`is`
@@ -38,8 +40,8 @@ fun ViewInteraction.click() = this.perform(ViewActions.click())
 inline fun <reified T> getJsonObject(context: Context, fileName: String, typeOf: TypeToken<T>) =
         GSON.fromJson<T>(readJsonFile(context, fileName), typeOf.type)
 
-inline fun <reified T> getJsonObject(context: Context, fileName: String, clazz: Class<T>) =
-        GSON.fromJson(readJsonFile(context, fileName), clazz)
+inline fun <reified T> getJsonObject(context: Context, fileName: String) =
+        GSON.fromJson(readJsonFile(context, fileName), T::class.java)
 
 fun readJsonFile(context: Context, filePath: String): String {
     val stream = context.resources.assets.open(filePath)
@@ -49,3 +51,15 @@ fun readJsonFile(context: Context, filePath: String): String {
 }
 
 fun sleep(millis: Long = 1000L) = Thread.sleep(millis)
+
+fun <T : ViewModel> createViewModelFactory(viewModel: T): ViewModelProvider.Factory {
+    return object : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(viewModel.javaClass)) {
+                @Suppress("UNCHECKED_CAST")
+                return viewModel as T
+            }
+            throw IllegalArgumentException("unexpected model class $modelClass")
+        }
+    }
+}

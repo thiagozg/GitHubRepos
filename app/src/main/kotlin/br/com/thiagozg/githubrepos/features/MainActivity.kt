@@ -93,11 +93,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun handleErrorState() {
-        runOnUiThread { pbRepositories.visibility = View.GONE }
-        alert(br.com.thiagozg.githubrepos.R.string.error_dialog_msg, br.com.thiagozg.githubrepos.R.string.error_dialog_title) {
-            yesButton { viewModel.fetchRepositories(isRetry = true) }
-            noButton {}
-        }.show()
+        runOnUiThread {
+            pbRepositories.visibility = View.GONE
+            alert(
+                br.com.thiagozg.githubrepos.R.string.error_dialog_msg,
+                br.com.thiagozg.githubrepos.R.string.error_dialog_title
+            ) {
+                yesButton { viewModel.fetchRepositories(isRetry = true) }
+                noButton {}
+            }.show()
+        }
     }
 
     private fun handleLoadingState() {
